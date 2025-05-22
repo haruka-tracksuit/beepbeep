@@ -246,7 +246,7 @@ export default function Home() {
                   value={newQuestion.questionText}
                   onChange={handleQuestionTextChange}
                   className={styles.textarea}
-                  rows={3}
+                  rows={2}
                 />
               </div>
               <div className={styles.field}>

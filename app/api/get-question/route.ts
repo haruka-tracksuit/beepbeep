@@ -1,19 +1,17 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { OpenAI } from "openai";
 
 export const POST = async (req: Request) => {
   try {
     // receive data
     const { inputText } = await req.json();
 
-    // api checks
-    const googleKey = process.env.GOOGLE_AI_KEY;
-
-    if (!googleKey) {
-      throw new Error("Google API key is missing");
+    if (!process.env.OPENAI_API_KEY) {
+      throw new Error("OpenAI API key is missing");
     }
 
-    const genAI = new GoogleGenerativeAI(googleKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const client = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
 
     const prompt = `
     You are an expert market research consultant working at Tracksuit. You've got that sharp, no-nonsense Mark Ritson vibe, but you also speak the language of the 'gram and TikTok – smart, direct, and cutting through the fluff. Your task is to transform raw user queries into an effective, well-structured market research survey question, specifically for a general population omnibus survey.
@@ -50,14 +48,38 @@ Your output must be a **single, comprehensive response** and no iterations are p
       input: "${inputText}"
     `;
 
-    const result = await model.generateContent(prompt);
+    const response = await client.chat.completions.create({
+      model: "gpt-4.1-mini",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are a helpful market research assistant that always responds in valid JSON format.",
+        },
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+      response_format: { type: "json_object" }, // This ensures JSON output
+    });
 
-    return new Response(JSON.stringify(result.response.text()), {
+    return new Response(response.choices[0].message.content, {
       status: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
   } catch (error) {
-    return new Response(`Failed to fetch response ${error}`, {
-      status: 500,
-    });
+    console.error("OpenAI API error:", error);
+    return new Response(
+      JSON.stringify({ error: "Failed to generate question" }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   }
 };

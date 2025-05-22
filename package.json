@@ -13,6 +13,7 @@
     "@gotracksuit/design": "^0.2.5",
     "@tanstack/react-query": "^5.51.23",
     "next": "15.3.2",
+    "openai": "^4.102.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

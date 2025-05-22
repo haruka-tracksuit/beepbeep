@@ -175,15 +175,11 @@ export default function Home() {
             </div>
           )}
         </div> */}
-        <h1 className={styles.omni}>🚌 Tracksuit Omnibus 🚌🚍</h1>
+        <h1 className={styles.omni}>🚌 Tracksuit Omnibus 🚌</h1>
 
         {/* Initial Input Form */}
         {!hasAIResponse && (
-          <form
-            className={styles.questionEditor}
-            onSubmit={handleSubmit}
-            // className={styles.form}
-          >
+          <form className={styles.questionEditor} onSubmit={handleSubmit}>
             <h1 className={styles.title}>What would you like to know?</h1>
             <i>
               For example: "How important is sustainability when choosing
@@ -246,13 +242,6 @@ export default function Home() {
                   onChange={handleQuestionTextChange}
                   className={styles.textarea}
                   rows={3}
-                />
-              </div>
-              <div className={styles.field}>
-                <Checkbox
-                  label="Single Choice Question"
-                  checked={newQuestion.singleInput}
-                  onChange={handleSingleInputChange}
                 />
               </div>
               <div className={styles.field}>

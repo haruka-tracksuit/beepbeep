@@ -175,17 +175,15 @@ export default function Home() {
             </div>
           )}
         </div> */}
-        <h1 className={styles.omni}>🚌 Tracksuit Omnibus 🚌</h1>
-
+        <h1 className={styles.omni}>🔥 Have a burning question?</h1>
+        <h2 className={styles.h2}>
+          Book your seat on the Track-O-Mnibus and get your insights tomorrow{" "}
+          <span className={styles.emoji}>🚌</span>
+        </h2>
         {/* Initial Input Form */}
         {!hasAIResponse && (
           <form className={styles.questionEditor} onSubmit={handleSubmit}>
-            <h1 className={styles.title}>What would you like to know?</h1>
-            <i>
-              For example: "How important is sustainability when choosing
-              clothing brands today?" or "Has the Olympic Games influenced your
-              interest in sports or fitness recently?"
-            </i>
+            <h1 className={styles.title}>Tell us a bit about yourself</h1>
             <div className={styles.field}>
               <label>Industry:</label>
               <input
@@ -197,7 +195,7 @@ export default function Home() {
               />
             </div>
             <div className={styles.field}>
-              <label>Brand:</label>
+              <label htmlFor="brand">Brand:</label>
               <input
                 type="text"
                 value={brand}
@@ -207,7 +205,15 @@ export default function Home() {
               />
             </div>
             <div className={styles.field}>
-              <label>Your question:</label>
+              <label>
+                What do you want to know?
+                <br />
+                <i className={styles.example}>
+                  For example: "What packaging cues drive purchase intent for
+                  our peanut butter SKU?" or "Which CSR initiatives generate the
+                  strongest emotional engagement with rock climbing brands?"
+                </i>
+              </label>
               <input
                 type="text"
                 value={inputText}
@@ -227,16 +233,15 @@ export default function Home() {
             />
           </form>
         )}
-
         {/* Question Editor (only shown after AI response) */}
         {hasAIResponse && newQuestion && (
           <>
             <div className={styles.questionEditor}>
               <div className={styles.header}>
-                <h1 className={styles.title}>What we'll ask respondents</h1>
+                <h1 className={styles.title}>Here's what we'll ask people</h1>
               </div>
               <div className={styles.field}>
-                <label>Question Text:</label>
+                <label>Question:</label>
                 <textarea
                   value={newQuestion.questionText}
                   onChange={handleQuestionTextChange}
@@ -277,13 +282,23 @@ export default function Home() {
                 />
                 <br />
                 <p>
-                  <strong>Why this question rocks:</strong>{" "}
-                  {newQuestion.AIExplanation.whyQuestionRocks}
+                  <strong className={styles.strong}>
+                    This question rocks{" "}
+                  </strong>
+                  {newQuestion.AIExplanation.whyQuestionRocks.replace(
+                    "This question rocks ",
+                    ""
+                  )}
                 </p>
                 <br />
                 <p>
-                  <strong>Why you'll love the insight:</strong>{" "}
-                  {newQuestion.AIExplanation.whatInsightUnlocks}
+                  <strong className={styles.strong}>
+                    You'll love the insight{" "}
+                  </strong>
+                  {newQuestion.AIExplanation.whatInsightUnlocks.replace(
+                    "You'll love the insight ",
+                    ""
+                  )}
                 </p>
 
                 {/* <Link href={"/"}>

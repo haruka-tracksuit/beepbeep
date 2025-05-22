@@ -1,11 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  webpack: (config) => {
-    const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-    config.plugins.push(new MiniCssExtractPlugin());
-    
-    return config;
-  },
+  // Enable CSS Modules
+  cssModules: true,
 }
 
 module.exports = nextConfig 

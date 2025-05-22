@@ -216,10 +216,27 @@ a.secondary {
 }
 
 .checkboxLabel {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  cursor: pointer !important;
+  font-size: 1rem !important;
+  color: var(--foreground) !important;
+  background: transparent !important;
+  padding: 8px 0 !important;
+}
+
+.checkboxLabel input[type="checkbox"] {
+  appearance: auto !important;
+  -webkit-appearance: auto !important;
+  width: 18px !important;
+  height: 18px !important;
+  cursor: pointer !important;
+  accent-color: #0070f3 !important;
+  opacity: 1 !important;
+  position: static !important;
+  margin: 0 !important;
+  border: 1px solid var(--foreground) !important;
 }
 
 .optionRow {
@@ -289,4 +306,19 @@ a.secondary {
 .primary:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.custom-button {
+  background-color: #bdb1e8 !important;
+  color: #393352 !important;
+}
+
+.custom-button:hover {
+  background-color: rgba(143, 128, 204, 0.1) !important;
+  color: #6f53a3 !important;
 }

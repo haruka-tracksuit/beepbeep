@@ -40,10 +40,10 @@ Your output must be a **single, comprehensive response** and no iterations are p
 {
   "questionText": "string",
   "singleInput": boolean,
-  "options": ["string", "string", ...],
+  "options": ["string", "string", ...] (4 or fewer),
   "AIExplanation": {
-    "whyQuestionRocks": "string (clear, concise, Tracksuity explanation of why the question is good. DO NOT mention omnibus survey or its characteristics.)",
-    "whatInsightUnlocks": "string (clear, concise, Tracksuity explanation of the business insight unlocked. Use appropriate generic terms for the audience/market when relevant.)"
+    "whyQuestionRocks": "string (clear, concise, Tracksuity explanation of why the question is good. DO NOT mention omnibus survey or its characteristics - mention the brand and/or industry.)",
+    "whatInsightUnlocks": "string (clear, concise, Tracksuity explanation of the business insight unlocked. Use appropriate generic terms for the audience/market when relevant -mention the brand and/or industry.)"
   }
 }
 

@@ -5,6 +5,7 @@ import styles from "./page.module.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@gotracksuit/design";
+import { Checkbox } from "@gotracksuit/design";
 
 type Question = {
   questionText: string;
@@ -118,10 +119,10 @@ export default function Home() {
   };
 
   // Handle single/multiple choice toggle
-  const handleSingleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSingleInputChange = (checked: boolean) => {
     setNewQuestion((prev) => ({
       ...prev,
-      singleInput: e.target.checked,
+      singleInput: checked,
     }));
   };
 
@@ -178,7 +179,7 @@ export default function Home() {
         {/* Initial Input Form */}
         {!hasAIResponse && (
           <form onSubmit={handleSubmit} className={styles.form}>
-            <h2>Enter your question prompt</h2>
+            <h1 className={styles.title}>What would you like to know?</h1>
             <div className={styles.field}>
               <label>Industry:</label>
               <input
@@ -200,7 +201,7 @@ export default function Home() {
               />
             </div>
             <div className={styles.field}>
-              <label>Question Prompt:</label>
+              <label>Your question:</label>
               <input
                 type="text"
                 value={inputText}
@@ -209,13 +210,15 @@ export default function Home() {
                 className={styles.input}
               />
             </div>
-            <button
+            <Button
+              theme="primary"
+              label={
+                getQuestion.isPending ? "Generating..." : "Generate Question"
+              }
               type="submit"
               className={styles.primary}
               disabled={getQuestion.isPending}
-            >
-              {getQuestion.isPending ? "Generating..." : "Generate Question"}
-            </button>
+            />
           </form>
         )}
 
@@ -224,27 +227,7 @@ export default function Home() {
           <>
             <div className={styles.questionEditor}>
               <div className={styles.header}>
-                <h2>What we'll ask respondents</h2>
-                <button
-                  onClick={() => {
-                    // Send the question data
-                    sendQuestion({
-                      text: newQuestion.questionText,
-                      accountBrandId: 0, // Using default accountBrandId as in test
-                      options: newQuestion.options,
-                      AIExplanation: newQuestion.AIExplanation,
-                    });
-
-                    // Reset the form after sending
-                    setHasAIResponse(false);
-                    setNewQuestion(emptyQuestion);
-                    setInputText("");
-                  }}
-                  className={styles.secondary}
-                  disabled={isSending}
-                >
-                  {isSending ? "Sending..." : "Submit"}
-                </button>
+                <h1 className={styles.title}>What we'll ask respondents</h1>
               </div>
               <div className={styles.field}>
                 <label>Question Text:</label>
@@ -256,14 +239,11 @@ export default function Home() {
                 />
               </div>
               <div className={styles.field}>
-                <label className={styles.checkboxLabel}>
-                  <input
-                    type="checkbox"
-                    checked={newQuestion.singleInput}
-                    onChange={handleSingleInputChange}
-                  />
-                  Single Choice Question
-                </label>
+                <Checkbox
+                  label="Single Choice Question"
+                  checked={newQuestion.singleInput}
+                  onChange={handleSingleInputChange}
+                />
               </div>
               <div className={styles.field}>
                 <label>Options:</label>
@@ -280,23 +260,22 @@ export default function Home() {
                         placeholder={`Option ${index + 1}`}
                       />
                       {newQuestion.options.length > 1 && (
-                        <button
+                        <Button
+                          theme="secondary"
                           type="button"
                           onClick={() => removeOption(index)}
-                          className={styles.removeButton}
-                        >
-                          Remove
-                        </button>
+                          label="Remove"
+                        />
                       )}
                     </div>
                   ))}
-                <button
+                <Button
+                  className={styles["custom-button"]}
+                  theme="secondary"
+                  label="Add option"
                   type="button"
                   onClick={addOption}
-                  className={styles.secondary}
-                >
-                  Add Option
-                </button>
+                />
                 <br />
                 <p>
                   <strong>Why this question rocks:</strong>{" "}
@@ -318,7 +297,27 @@ export default function Home() {
                   </button>
                 </Link> */}
               </div>
-              <Button label="Click me" theme="primary" />
+              <Button
+                theme="primary"
+                label={isSending ? "Sending..." : "Submit"}
+                onClick={() => {
+                  // Send the question data
+                  sendQuestion({
+                    text: newQuestion.questionText,
+                    accountBrandId: 0, // Using default accountBrandId as in test
+                    options: newQuestion.options,
+                    AIExplanation: newQuestion.AIExplanation,
+                  });
+
+                  // Reset all form fields
+                  setHasAIResponse(false);
+                  setNewQuestion(emptyQuestion);
+                  setInputText("");
+                  setIndustry("");
+                  setBrand("");
+                }}
+                disabled={isSending}
+              />
             </div>
           </>
         )}

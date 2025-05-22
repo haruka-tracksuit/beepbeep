@@ -18,6 +18,8 @@ type Question = {
 
 export default function Home() {
   const [inputText, setInputText] = useState("");
+  const [industry, setIndustry] = useState("");
+  const [brand, setBrand] = useState("");
   const emptyQuestion: Question = {
     questionText: "",
     singleInput: true,
@@ -39,7 +41,7 @@ export default function Home() {
 
   const getQuestion = useAIDescription();
   const router = useRouter();
-  console.log(newQuestion);
+
   const handleTestSend = async () => {
     sendQuestion({
       text: "What is your favorite color?",
@@ -55,12 +57,11 @@ export default function Home() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     getQuestion.mutate(
-      { inputText },
+      {
+        inputText: `${inputText}. The industry I am interested in is ${industry} and my brand is ${brand}`,
+      },
       {
         onSuccess: (data) => {
-          // Log the received data
-          console.log("Received AI response:", data);
-
           try {
             // Extract JSON from the markdown code block if present
             let jsonData = data;
@@ -89,9 +90,6 @@ export default function Home() {
                 whatInsightUnlocks: parsedData.AIExplanation.whatInsightUnlocks,
               },
             };
-
-            // Log the processed data
-            console.log("Processed question data:", questionData);
 
             setNewQuestion(questionData);
             setHasAIResponse(true);
@@ -181,13 +179,36 @@ export default function Home() {
         {!hasAIResponse && (
           <form onSubmit={handleSubmit} className={styles.form}>
             <h2>Enter your question prompt</h2>
-            <input
-              type="text"
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              placeholder="Describe the question you want to create..."
-              className={styles.input}
-            />
+            <div className={styles.field}>
+              <label>Industry:</label>
+              <input
+                type="text"
+                value={industry}
+                onChange={(e) => setIndustry(e.target.value)}
+                placeholder="Enter industry..."
+                className={styles.input}
+              />
+            </div>
+            <div className={styles.field}>
+              <label>Brand:</label>
+              <input
+                type="text"
+                value={brand}
+                onChange={(e) => setBrand(e.target.value)}
+                placeholder="Enter brand..."
+                className={styles.input}
+              />
+            </div>
+            <div className={styles.field}>
+              <label>Question Prompt:</label>
+              <input
+                type="text"
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                placeholder="Describe what you want to know..."
+                className={styles.input}
+              />
+            </div>
             <button
               type="submit"
               className={styles.primary}
@@ -206,13 +227,23 @@ export default function Home() {
                 <h2>What we'll ask respondents</h2>
                 <button
                   onClick={() => {
+                    // Send the question data
+                    sendQuestion({
+                      text: newQuestion.questionText,
+                      accountBrandId: 0, // Using default accountBrandId as in test
+                      options: newQuestion.options,
+                      AIExplanation: newQuestion.AIExplanation,
+                    });
+
+                    // Reset the form after sending
                     setHasAIResponse(false);
                     setNewQuestion(emptyQuestion);
                     setInputText("");
                   }}
                   className={styles.secondary}
+                  disabled={isSending}
                 >
-                  Submit
+                  {isSending ? "Sending..." : "Submit"}
                 </button>
               </div>
               <div className={styles.field}>

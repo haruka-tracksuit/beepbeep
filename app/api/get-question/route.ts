@@ -46,7 +46,7 @@ Your output must be a **single, comprehensive response** and no iterations are p
     "whatInsightUnlocks": "string (clear, concise, Tracksuity explanation of the business insight unlocked. Use appropriate generic terms for the audience/market when relevant.)"
   }
 }
-  
+
       input: "${inputText}"
     `;
 

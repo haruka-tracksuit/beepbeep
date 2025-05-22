@@ -4,6 +4,7 @@ import { useSendQuestion } from "@/hooks/useSendQuestion";
 import styles from "./page.module.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Button } from "@gotracksuit/design";
 
 type Question = {
   questionText: string;
@@ -286,6 +287,7 @@ export default function Home() {
                   </button>
                 </Link> */}
               </div>
+              <Button label="Click me" theme="primary" />
             </div>
           </>
         )}

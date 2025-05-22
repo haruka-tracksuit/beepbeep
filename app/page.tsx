@@ -175,11 +175,21 @@ export default function Home() {
             </div>
           )}
         </div> */}
+        <h1 className={styles.omni}>🚌 Tracksuit Omnibus 🚌🚍</h1>
 
         {/* Initial Input Form */}
         {!hasAIResponse && (
-          <form onSubmit={handleSubmit} className={styles.form}>
+          <form
+            className={styles.questionEditor}
+            onSubmit={handleSubmit}
+            // className={styles.form}
+          >
             <h1 className={styles.title}>What would you like to know?</h1>
+            <i>
+              For example: "How important is sustainability when choosing
+              clothing brands today?" or "Has the Olympic Games influenced your
+              interest in sports or fitness recently?"
+            </i>
             <div className={styles.field}>
               <label>Industry:</label>
               <input
